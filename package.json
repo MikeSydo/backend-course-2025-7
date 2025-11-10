@@ -20,6 +20,7 @@
   "homepage": "https://github.com/MikeSydo/backend-course-2025-6#readme",
   "dependencies": {
     "commander": "^14.0.2",
+    "express": "^5.1.0",
     "superagent": "^10.2.3"
   },
   "devDependencies": {
