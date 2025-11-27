@@ -1,34 +1,37 @@
 {
-  "name": "lab6",
+  "name": "lab7",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js -h 0.0.0.0 -p 3000",
+    "dev": "nodemon index.js -- -h 0.0.0.0 -p 3000"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MikeSydo/backend-course-2025-6.git"
+    "url": "git+https://github.com/MikeSydo/backend-course-2025-7.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/MikeSydo/backend-course-2025-6/issues"
+    "url": "https://github.com/MikeSydo/backend-course-2025-7/issues"
   },
-  "homepage": "https://github.com/MikeSydo/backend-course-2025-6#readme",
+  "homepage": "https://github.com/MikeSydo/backend-course-2025-7#readme",
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "body-parser": "^2.2.0",
     "commander": "^14.0.2",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "multer": "^2.0.2",
     "superagent": "^10.2.3",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "prisma": "^5.22.0"
   }
 }

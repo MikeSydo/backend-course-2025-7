@@ -1,0 +1,263 @@
+openapi: 3.0.0
+info:
+  title: Inventory API
+  version: 1.0.0
+  description: API for managing forest and green area inventory
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+
+paths:
+  /register:
+    post:
+      tags:
+        - Inventory
+      summary: Register a new inventory item
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - inventory_name
+              properties:
+                inventory_name:
+                  type: string
+                  description: Name of the inventory item
+                description:
+                  type: string
+                  description: Description of the item
+                photo:
+                  type: string
+                  format: binary
+                  description: Photo of the item
+      responses:
+        '201':
+          description: Item successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItem'
+        '400':
+          description: Validation error
+
+  /inventory:
+    get:
+      tags:
+        - Inventory
+      summary: Get list of all inventory items
+      responses:
+        '200':
+          description: List of inventory items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
+
+  /inventory/{id}:
+    get:
+      tags:
+        - Inventory
+      summary: Get item details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Item ID
+      responses:
+        '200':
+          description: Item details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItem'
+        '404':
+          description: Item not found
+
+    put:
+      tags:
+        - Inventory
+      summary: Update an item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Item ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inventory_name:
+                  type: string
+                  description: New item name
+                description:
+                  type: string
+                  description: New item description
+      responses:
+        '200':
+          description: Item updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItem'
+        '404':
+          description: Item not found
+
+    delete:
+      tags:
+        - Inventory
+      summary: Delete an item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Item ID
+      responses:
+        '200':
+          description: Item deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Item deleted successfully
+        '404':
+          description: Item not found
+
+  /inventory/{id}/photo:
+    get:
+      tags:
+        - Photos
+      summary: Get item photo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Item ID
+      responses:
+        '200':
+          description: Photo file
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Photo not found
+
+    put:
+      tags:
+        - Photos
+      summary: Update item photo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Item ID
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - photo
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                  description: New photo file
+      responses:
+        '200':
+          description: Photo updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Photo updated successfully
+        '404':
+          description: Item not found
+        '400':
+          description: Photo is required
+
+  /search:
+    post:
+      tags:
+        - Search
+      summary: Search for an item by ID
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: Item ID to search for
+                includePhoto:
+                  type: string
+                  enum: [on, off]
+                  description: Include photo information
+      responses:
+        '200':
+          description: Item found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  inventory_name:
+                    type: string
+                  description:
+                    type: string
+                  photo_url:
+                    type: string
+                    nullable: true
+        '404':
+          description: Item not found
+
+components:
+  schemas:
+    InventoryItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier
+        inventory_name:
+          type: string
+          description: Item name
+        description:
+          type: string
+          description: Item description
+        photo:
+          type: string
+          nullable: true
+          description: Photo filename

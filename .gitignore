@@ -1,2 +1,8 @@
 node_modules/
 cache/
+
+/src/generated/prisma
+
+.env
+npm-debug.log
+*.log
