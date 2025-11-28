@@ -1,0 +1,8 @@
+{
+  "watch": ["*.js", "src/**/*.js"],
+  "ext": "js,json",
+  "ignore": ["node_modules/**", "prisma/**"],
+  "legacyWatch": true,
+  "delay": 2000,
+  "verbose": true
+}

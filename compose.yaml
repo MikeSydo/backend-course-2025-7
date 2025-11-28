@@ -4,31 +4,23 @@ services:
     ports:
       - "${PORT:-3000}:3000"
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/prisma
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       - NODE_ENV=development
       - DATABASE_URL=${DATABASE_URL}
-    depends_on:
-      postgres:
-        condition: service_healthy
+    command: sh -c "npx prisma migrate deploy && npm run dev"
 
-  postgres:
-    image: postgres:15-alpine
-    ports:
-      - "5432:5432"
+  db:
+    image: postgres
+    restart: always
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - inventory_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
+    ports:
+      - "5432:5432"
 volumes:
   inventory_data:

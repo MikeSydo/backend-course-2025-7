@@ -1,21 +1,29 @@
-FROM node:18
+# syntax=docker/dockerfile:1
 
-WORKDIR /app
+ARG NODE_VERSION=24.10.0
 
-# Копіюємо файли залежностей
+FROM node:${NODE_VERSION}-alpine
+
+# Download openssl for Prisma
+RUN apk add --no-cache openssl
+
+WORKDIR /usr/src/app
+
+# Сopy package and prisma files
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Встановлюємо залежності
-RUN npm install
+# Add --omit=dev for npm ci to run without dev dependencies
+RUN npm ci && npx prisma generate
 
-# Генеруємо Prisma Client
-RUN npx prisma generate
+# Run the application as a non-root user.
+USER node
 
-# Копіюємо весь код
+# Copy the rest of the source files into the image.
 COPY . .
 
+# Expose the port that the application listens on.
 EXPOSE 3000
 
-# Команда запуску
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run dev"]
+# Run the application.
+CMD ["npm", "run", "dev"]

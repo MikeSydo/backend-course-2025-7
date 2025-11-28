@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js -h 0.0.0.0 -p 3000",
-    "dev": "nodemon index.js -- -h 0.0.0.0 -p 3000"
+    "start": "node index.js -h localhost -p 3000",
+    "dev": "nodemon index.js -- -h localhost -p 3000"
   },
   "repository": {
     "type": "git",
