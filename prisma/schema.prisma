@@ -11,5 +11,6 @@ model Inventory {
   id  Int   @id @default(autoincrement())
   name      String
   description String?
+  photoName String?
   photo Bytes?
 }

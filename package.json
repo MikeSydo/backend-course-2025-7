@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js -h localhost -p 3000",
-    "dev": "nodemon index.js -- -h localhost -p 3000"
+    "dev": "nodemon index.js -- -h localhost -p 3000",
+    "db:seed": "node prisma/seed.js",
+    "db:seed:docker": "docker-compose exec app npm run db:seed"
   },
   "repository": {
     "type": "git",
