@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js -h localhost -p 3000",
-    "dev": "nodemon index.js -- -h localhost -p 3000",
+    "start": "nodemon index.js -- -h localhost -p 3000",
+    "dev": "nodemon --inspect=0.0.0.0:9229 index.js -- -h localhost -p 3000",
     "db:seed": "node prisma/seed.js",
     "db:seed:docker": "docker-compose exec app npm run db:seed"
   },

@@ -7,7 +7,7 @@ FROM node:${NODE_VERSION}-alpine
 # Download openssl for Prisma
 RUN apk add --no-cache openssl
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Сopy package and prisma files
 COPY package*.json ./
